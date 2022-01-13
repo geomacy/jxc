@@ -18,9 +18,20 @@ public class Jxc {
         }
     }
 
-    public static void processAll(InputStream[] sources, Map<String, Integer> counts) throws IOException {
+    public static void processAll(InputStream[] sources, Map<String, Integer> counts) {
         for (InputStream str : sources) {
-            process(str, counts);
+            Thread t = new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    try {
+                        process(str, counts);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            t.start();
         }
     }
 

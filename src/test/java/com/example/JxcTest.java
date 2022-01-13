@@ -25,7 +25,7 @@ public class JxcTest {
     }
 
     @Test
-    public void testProcessAll() throws InterruptedException, IOException {
+    public void testProcessAll() throws InterruptedException {
         Map<String, Integer> expected = new HashMap<>();
         expected.put("alice", 2);
         expected.put("cried", 2);
@@ -35,7 +35,10 @@ public class JxcTest {
         Map<String, Integer> actual = new HashMap<>();
         InputStream first = getClass().getClassLoader().getResourceAsStream("com/example/data.txt");
         InputStream second = getClass().getClassLoader().getResourceAsStream("com/example/data.txt");
-        Jxc.processAll(new InputStream[]{first, second}, actual);
+        Jxc.processAll(new InputStream[]{first}, actual);
+        Thread.sleep(1000);
+        Jxc.processAll(new InputStream[]{second}, actual);
+        Thread.sleep(1000);
         for (Map.Entry<String, Integer> e : actual.entrySet()) {
             System.out.printf("%s: %d\n", e.getKey(), e.getValue());
         }
